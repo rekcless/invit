@@ -1,1 +1,386 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Undangan Pernikahan | Wakhid & Nida</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #f9f7f1;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .section-wrapper {
+      margin-bottom: 50px;
+      padding: 20px;
+      background-color: #e3efe5;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    .section {
+      position: relative;
+      text-align: center;
+    }
+    .floral {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto 10px;
+    }
+    .floral.bottom {
+      margin-top: 20px;
+      transform: rotate(180deg);
+    }
+    .title, .subtitle, .verse {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.6s ease;
+    }
+    .active {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+    .title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 28px;
+      color: #b7895b;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      font-size: 18px;
+      color: #4c5c52;
+      line-height: 1.6;
+    }
+    .verse {
+      font-style: italic;
+      font-size: 16px;
+      color: #4c5c52;
+      line-height: 1.6;
+      padding: 0 10px;
+    }
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 18px;
+      color: #333;
+      flex-wrap: wrap;
+    }
+    .countdown div {
+      background: #f3f3f3;
+      padding: 10px 15px;
+      border-radius: 10px;
+      min-width: 60px;
+    }
+    .label {
+      font-size: 14px;
+      color: #777;
+    }
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f9f7f1;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: all 1s ease;
+    }
+    #bukaBtn {
+      margin-top: 20px;
+      background-color: #b7895b;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #mainContent {
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 1s ease;
+    }
+    #mainContent.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+    #musicControl {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      width: 35px;
+      height: 35px;
+      cursor: pointer;
+    }
+    #musicControl svg {
+      width: 100%;
+      height: 100%;
+      animation: spin 4s linear infinite;
+    }
+    #musicControl.paused svg {
+      animation-play-state: paused;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    footer {
+      text-align: center;
+      padding: 20px 10px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgm" src="https://raw.githubusercontent.com/rekcless/invit/main/b.mp3" loop></audio>
+
+  <!-- Kaset Musik SVG -->
+  <div id="musicControl" class="paused">
+    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#b7895b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="7" width="20" height="10" rx="2" ry="2"/>
+      <circle cx="8" cy="12" r="1.5" fill="#b7895b"/>
+      <circle cx="16" cy="12" r="1.5" fill="#b7895b"/>
+      <line x1="2" y1="10" x2="22" y2="10"/>
+    </svg>
+  </div>
+
+  <!-- Overlay -->
+  <div id="overlay">
+    <div class="container">
+      <div class="section-wrapper">
+        <div class="section">
+          <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral" alt="Floral Top">
+          <div class="title">Wedding Invitation</div>
+          <div class="subtitle">Kami mengundang Anda untuk hadir<br>pada hari bahagia kami</div>
+          <br>
+          <div class="title">Wakhid & Nida</div>
+          <br>
+          <button id="bukaBtn">Buka Undangan</button>
+          <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral bottom" alt="Floral Bottom">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container" id="mainContent">
+    <!-- 1. Permohonan Kehadiran -->
+  <div class="section-wrapper">
+    <div class="section">
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral">
+      <div class="title">Assalamu’alaikum Warahmatullahi Wabarakatuh</div>
+      <div class="subtitle">
+        Dengan memohon rahmat dan ridho Allah SWT,<br>
+        kami bermaksud mengundang Bapak/Ibu/Saudara/i<br>
+        untuk hadir dalam acara pernikahan kami.
+      </div>
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral bottom">
+    </div>
+  </div>
+
+  <!-- 2. Nama Mempelai & Orang Tua -->
+  <div class="section-wrapper">
+    <div class="section">
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral">
+      <div class="title">Muwakhid Nur Imamah</div>
+      <div class="subtitle">Putra dari Bpk. Supanto & Ibu Siti Marfuah</div>
+      <br>
+      <div class="title">Afifah Nida Umi Fathiyah</div>
+      <div class="subtitle">Putri dari Bpk. Marimo & Ibu Sri Suparsih</div>
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral bottom">
+    </div>
+  </div>
+
+  <!-- 3. Info Resepsi -->
+  <div class="section-wrapper">
+    <div class="section">
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral">
+      <div class="title">Resepsi Pernikahan</div>
+      <div class="subtitle">
+        Jumat, 15 Agustus 2025<br>
+        Pukul 13.00 WIB - Selesai<br>
+        Bertempat di kediaman kami<br>
+        Kauman Rt 02 / Rw 07, Karanganyar, Weru, Sukoharjo<br><br>
+        <a href="https://maps.app.goo.gl/3kcezLeQFGHRVkdR9" target="_blank" style="display:inline-block;margin-top:10px;padding:10px 20px;background:#b7895b;color:#fff;border-radius:8px;text-decoration:none;">Lihat Lokasi di Google Maps</a>
+      </div>
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral bottom">
+    </div>
+  </div>
+
+  <!-- 4. Ayat Al-Qur’an -->
+  <div class="section-wrapper">
+    <div class="section">
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral">
+      <div class="title">Ayat Al-Qur’an</div>
+      <div class="verse">
+        “Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri,<br>
+        supaya kamu cenderung dan merasa tenteram kepadanya,<br>
+        dan dijadikan-Nya di antaramu rasa kasih dan sayang.”<br>
+        <strong>(QS. Ar-Rum: 21)</strong>
+      </div>
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral bottom">
+    </div>
+  </div>
+
+  <!-- 5. Hitung Mundur -->
+  <div class="section-wrapper">
+    <div class="section">
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral">
+      <div class="title">Menuju Hari Bahagia</div>
+      <div class="countdown" id="countdown">
+        <div><span id="days">0</span><br><span class="label">Hari</span></div>
+        <div><span id="hours">0</span><br><span class="label">Jam</span></div>
+        <div><span id="minutes">0</span><br><span class="label">Menit</span></div>
+        <div><span id="seconds">0</span><br><span class="label">Detik</span></div>
+      </div>
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral bottom">
+    </div>
+  </div>
+
+  <!-- 6. Ucapan Terima Kasih -->
+  <div class="section-wrapper">
+    <div class="section">
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral">
+      <div class="title">Terima Kasih</div>
+      <div class="subtitle">
+        Merupakan suatu kehormatan dan kebahagiaan bagi kami<br>
+        apabila Bapak/Ibu/Saudara/i berkenan hadir<br>
+        dan memberikan doa restu.
+        <br><br>
+        
+        <br><br><br>
+        <strong style="font-family: 'Dancing Script', cursive; font-size: 24px; color: #b7895b;">
+          Wassalamu’alaikum Warahmatullahi Wabarakatuh
+        </strong>
+      </div>
+      <img src="https://raw.githubusercontent.com/rekcless/invit/refs/heads/main/floral-top.png" class="floral bottom">
+    </div>
+  </div>
+</div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Wakhid & Nida. Website undangan oleh keluarga besar.
+  </footer>
+
+  <!-- Efek Salju SVG -->
+  <svg id="snow" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <circle id="flake" r="1.5" fill="white"/>
+    </defs>
+    <g id="flakes"></g>
+  </svg>
+
+  <script>
+    const countdownDate = new Date("August 15, 2025 13:00:00").getTime();
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      document.getElementById("days").innerText = days;
+      document.getElementById("hours").innerText = hours;
+      document.getElementById("minutes").innerText = minutes;
+      document.getElementById("seconds").innerText = seconds;
+    }, 1000);
+
+    const bgm = document.getElementById('bgm');
+    const musicControl = document.getElementById('musicControl');
+    musicControl.addEventListener('click', () => {
+      if (bgm.paused) {
+        bgm.play();
+        musicControl.classList.remove('paused');
+      } else {
+        bgm.pause();
+        musicControl.classList.add('paused');
+      }
+    });
+
+    function bukaUndangan() {
+      const overlay = document.getElementById('overlay');
+      const mainContent = document.getElementById('mainContent');
+      overlay.style.transform = 'translateY(-100%)';
+      overlay.style.opacity = '0';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        mainContent.classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        bgm.play().catch(() => {});
+        musicControl.classList.remove('paused');
+      }, 1000);
+    }
+
+    document.getElementById('bukaBtn').addEventListener('click', bukaUndangan);
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        } else {
+          entry.target.classList.remove('active');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.title, .subtitle, .verse').forEach(el => {
+      observer.observe(el);
+    });
+
+    // ❄ Efek Salju Lebat
+    const snowContainer = document.getElementById("flakes");
+    function createSnowflake() {
+      const flake = document.createElementNS("http://www.w3.org/2000/svg", "use");
+      flake.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#flake");
+      const size = Math.random() * 2 + 1;
+      const x = Math.random() * window.innerWidth;
+      const duration = Math.random() * 10 + 10;
+      flake.setAttribute("x", x);
+      flake.setAttribute("y", -10);
+      flake.setAttribute("transform", `scale(${size})`);
+      flake.style.animation = `fall ${duration}s linear forwards`;
+      snowContainer.appendChild(flake);
+      setTimeout(() => {
+        snowContainer.removeChild(flake);
+      }, duration * 1000);
+    }
+    setInterval(() => {
+      for (let i = 0; i < 1; i++) createSnowflake(); // ❄ Lebih rapat: 10 flakes per 200ms
+    }, 200);
+
+    const style = document.createElement("style");
+    style.innerHTML = `
+      @keyframes fall {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) scale(1);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
